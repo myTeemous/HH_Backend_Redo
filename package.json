@@ -1,0 +1,25 @@
+{
+  "name": "hh_backend",
+  "version": "1.0.0",
+  "description": "HackHouston Backend refactor",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/myTeemous/HH_Backend_Redo.git"
+  },
+  "author": "Kenneth Ratliff",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/myTeemous/HH_Backend_Redo/issues"
+  },
+  "homepage": "https://github.com/myTeemous/HH_Backend_Redo#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.0"
+  }
+}
