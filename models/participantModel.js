@@ -10,7 +10,10 @@ module.exports = class Participant {
 
     //save an individual participant to the database
     saveParticipant() {
-
+        //check if school already exists in database
+        //if school exists, insert participant info along with school id(foreign key) that was found
+        //if school does not exist, insert school name into school table, retreive school id,
+        //and insert participant info along with school id into participant table.
     }
 
     //retrieve all information on an individual participant
