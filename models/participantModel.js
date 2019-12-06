@@ -17,7 +17,7 @@ module.exports = class Participant {
         //const school = db.execute('SELECT schoolName FROM school WHERE schoolName LIKE %?%', [this.school]);
         
 
-        /*
+        
         db.execute('SELECT id FROM school WHERE schoolName = ?', [req.body.school.toUpperCase()])
         .then((result) => {
             if(result[0].length === 0) {
@@ -42,7 +42,7 @@ module.exports = class Participant {
             }
         })
         .catch(err => console.log(err))
-        */
+        
     }
 
     //retrieve all information on an individual participant
