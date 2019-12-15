@@ -1,10 +1,13 @@
-const mysql = require('mysql2');
+const {Client} = require('pg');
 
-const pool = mysql.createPool({
-    host: '127.0.0.1',
-    user: 'root',
-    database: 'studentinfo',
-    password: 'Q!squirestrat35',
+const client = new Client({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'hackhouston',
+    password: '',
+    port: 5432,
 });
+
+client.connect();
 
 module.exports = pool.promise();
