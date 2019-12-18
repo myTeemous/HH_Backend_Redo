@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const db = require('./util/database');
+const db = require('./controllers/participantController');
 
 const app = express();
 const PORT = 3000;
@@ -12,9 +12,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
-app.post('/', (req, res) => {
-  
-});
+app.post('/', db.getParticipant);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
