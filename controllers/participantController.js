@@ -9,15 +9,13 @@ const saveParticipant = async (req, res) => {
         if(response.rows.length > 0) {
             const response2 = await pool.query('INSERT INTO participant (first_name, last_name, email, school_id) VALUES ($1, $2, $3, $4) RETURNING id',
             [req.body.firstName, req.body.lastName, req.body.email, parseInt(response.rows[0].id)]);
-            console.log(response2);
-            res.end();
+            res.status(200).json({ registrationConfirmation: 'You have successfully registered for HackHouston!' });
         }
         else {
             const response2 = await pool.query('INSERT INTO school (school_name) VALUES ($1) RETURNING id', [school]);
             const response3 = await pool.query('INSERT INTO participant (first_name, last_name, email, school_id) VALUES ($1, $2, $3, $4)',
             [req.body.firstName, req.body.lastName, req.body.email, parseInt(response2.rows[0].id)]);
-            console.log(response3);
-            res.end();
+            res.status(200).json({ registrationConfirmation: 'You have successfully registered for HackHouston!' });
         }
     }
     catch (err) {
