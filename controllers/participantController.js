@@ -20,22 +20,20 @@ const saveParticipant = async (req, res) => {
     }
     catch (err) {
         console.log(err);
-        res.end();
+        res.status(500).end();
     }
 };
 
 //retrieve all information on an individual participant
 const getParticipant = async (req, res) => {
     try {
-        const school = req.body.school;
-        const response = await pool.query('INSERT INTO school (school_name) VALUES ($1) RETURNING id', [school]);
-        console.log(response.rows[0].id);
-        res.end();
-        //res.status(200).json(response.row[0]);
+        const email = req.body.email;
+        const response = await pool.query('SELECT p.first_name, p.last_name, p.email, s.school_name FROM participant p INNER JOIN school s ON p.school_id = s.id WHERE p.email = $1', [email]);
+        res.status(200).json(response.rows[0]);
     }
     catch (err) {
         console.log(err);
-        res.end();
+        res.status(500).end();
     }
 };
 
