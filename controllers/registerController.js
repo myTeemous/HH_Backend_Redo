@@ -29,25 +29,6 @@ const saveParticipant = async (req, res) => {
     }
 };
 
-//Get the name, email, and school of an individual participant.
-const getParticipant = async (req, res) => {
-    try {
-        const email = req.body.email;
-        const response = await pool.query('SELECT p.first_name, p.last_name, p.email, s.school_name FROM participant p INNER JOIN school s ON p.school_id = s.id WHERE p.email = $1', [email]);
-        res.status(200).json(response.rows[0]);
-    }
-    catch (err) {
-        console.log(err);
-        res.status(500).end();
-    }
-};
-
-//Get the name, email, and school of all participants.
-const getAllParticipants = async (req, res) => {
-        
-};
-
 module.exports = {
-    getParticipant,
     saveParticipant
 }
