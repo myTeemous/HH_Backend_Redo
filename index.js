@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -12,7 +13,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
-app.post('/', db.getParticipant);
+app.post('/', db.saveParticipant);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
