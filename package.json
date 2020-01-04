@@ -18,10 +18,12 @@
   "homepage": "https://github.com/myTeemous/HH_Backend_Redo#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "connect-redis": "^4.0.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
-    "pg": "^7.14.0"
+    "pg": "^7.14.0",
+    "redis": "^2.8.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.0"
