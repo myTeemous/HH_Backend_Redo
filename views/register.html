@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Participant Registration">
+    <meta name="author" content="Kenneth Ratliff">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./CSS/style.css">
+    <title>Registration</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-7">
+                <form id="myForm" action="http://localhost:3000/register" method="POST">
+                    First name:<br>
+                    <input type="text" name="firstName" size="80">
+                    <br>
+                    Last name:<br>
+                    <input type="text" name="lastName" size="80">
+                    <br>
+                    Email:<br>
+                    <input type="email" name="email" size="80">
+                    <br>
+                    School:<br>
+                    <input type="text" name="school" size="80">
+                    <br><br>
+                    <input type="submit" value="Submit">
+                </form>
+                <br><br>
+                <form action="http://localhost:3000/students"> 
+                    <button type="submit"> 
+                        Click Here 
+                    </button> 
+                </form> 
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+    <script>
+        const myForm = document.querySelector('#myForm');
+        myForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const formData = new FormData(myForm);
+            const searchParams = new URLSearchParams();
+            for(const pair of formData) {
+                searchParams.append(pair[0], pair[1]);
+            }
+            fetch('http://localhost:3000/', {
+                method: 'POST',
+                body: searchParams
+            })
+            .then((response) => { 
+                return response.json();
+            })
+            .then((jsonResponse) => {
+                if(jsonResponse.insertion >= 0) {
+                    const div = document.createElement('div');
+                    div.className = 'alert alert-success';
+                    div.appendChild(document.createTextNode('Insert ID = ' + jsonResponse.insertion.toString()));
+                    
+                    const parentElement = myForm.parentNode;
+                    parentElement.insertBefore(div, myForm);
+                    myForm.reset();
+                    
+                    setTimeout(() => document.querySelector('.alert').remove(), 6000);
+                }
+                else {
+                    const div = document.createElement('div');
+                    div.className = 'alert alert-danger';
+                    div.appendChild(document.createTextNode('Error! Student already exists.'));
+                    
+                    const parentElement = myForm.parentNode;
+                    parentElement.insertBefore(div, myForm);
+                    myForm.reset();
+                    setTimeout(() => document.querySelector('.alert').remove(), 6000);
+                }
+            }).catch((error) => {
+                console.error(error);
+            });
+        });
+    </script>
+</body>
+</html>

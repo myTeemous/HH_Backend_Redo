@@ -20,7 +20,9 @@ redisClient.on('error',(err) => {
 });
 
 //import routes
+const homeRoutes = require('./routes/home');
 const registerRoutes = require('./routes/register');
+const loginRoutes = require('./routes/login');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(session({
@@ -36,7 +38,9 @@ app.use(session({
 }));
 
 //mount routes
+app.use(homeRoutes);
 app.use(registerRoutes);
+app.use(loginRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

@@ -4,10 +4,10 @@ const registerController = require('../controllers/registerController');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../views', 'index.html'));
+router.get('/register', (req, res) => {
+    res.sendFile(path.join(__dirname, '../views', 'register.html'));
 });
   
-router.post('/', registerController.saveParticipant);
+router.post('/register', registerController.saveParticipant);
 
 module.exports = router;
