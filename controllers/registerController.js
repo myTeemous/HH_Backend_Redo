@@ -1,31 +1,50 @@
 const pool = require('../util/database');  //needed for the database connection
+const { validationResult } = require('express-validator');
 
 //save an individual participant to the database
 const saveParticipant = async (req, res) => {
     try {
-        //Before inserting a new participant, check and see if their school exists.
-        const school = req.body.school.toUpperCase();
-        const response = await pool.query('SELECT id FROM school WHERE school_name = $1', [school]);
+        const errors = validationResult(req);
 
-        //If the participants school exists, get the school id and insert it into the participant
-        //table along with their first name, last name, and email.
-        if(response.rows.length > 0) {
-            const response2 = await pool.query('INSERT INTO participant (first_name, last_name, email, school_id) VALUES ($1, $2, $3, $4) RETURNING id',
-            [req.body.firstName, req.body.lastName, req.body.email, parseInt(response.rows[0].id)]);
-            res.status(200).json({ registrationConfirmation: 'You have successfully registered for HackHouston!' });
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
         }
-        //If the participants school does not exist, insert the school first, then insert the
-        //participants information.
         else {
-            const response2 = await pool.query('INSERT INTO school (school_name) VALUES ($1) RETURNING id', [school]);
-            const response3 = await pool.query('INSERT INTO participant (first_name, last_name, email, school_id) VALUES ($1, $2, $3, $4)',
-            [req.body.firstName, req.body.lastName, req.body.email, parseInt(response2.rows[0].id)]);
-            res.status(200).json({ registrationConfirmation: 'You have successfully registered for HackHouston!' });
+            const { firstName, lastName, email, password } = req.body;
+            const school = req.body.school.toUpperCase();
+
+            //check if the user already exists based off of their email address
+            const response = await pool.query('SELECT email FROM participant WHERE email = $1', [email]);
+
+            //If the users email already exists, they must use another email
+            if(response.rows.length > 0) {
+                res.json({ registrationError: 'User already exists' });
+            }
+            else {
+                //Before inserting a new participant, check and see if their school exists.
+                const response2 = await pool.query('SELECT id FROM school WHERE school_name = $1', [school]);
+
+                //If the participants school exists, get the school id and insert it into the participant
+                //table along with their first name, last name, and email.
+                if(response2.rows.length > 0) {
+                    const response3 = await pool.query('INSERT INTO participant (first_name, last_name, email, school_id) VALUES ($1, $2, $3, $4) RETURNING id',
+                    [firstName, lastName, email, parseInt(response2.rows[0].id)]);
+                    res.status(200).json({ registrationConfirmation: 'You have successfully registered for HackHouston!' });
+                }
+                //If the participants school does not exist, insert the school first, then insert the
+                //participants information.
+                else {
+                    const response3 = await pool.query('INSERT INTO school (school_name) VALUES ($1) RETURNING id', [school]);
+                    const response4 = await pool.query('INSERT INTO participant (first_name, last_name, email, school_id) VALUES ($1, $2, $3, $4)',
+                    [firstName, lastName, email, parseInt(response3.rows[0].id)]);
+                    res.status(200).json({ registrationConfirmation: 'You have successfully registered for HackHouston!' });
+                }
+            }
         }
     }
     catch (err) {
         console.log(err);
-        res.status(500).end();
+        res.status(500).json({error: err});
     }
 };
 
