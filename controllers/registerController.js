@@ -29,14 +29,23 @@ const saveParticipant = async (req, res) => {
                 if(response2.rows.length > 0) {
                     const response3 = await pool.query('INSERT INTO participant (first_name, last_name, email, school_id) VALUES ($1, $2, $3, $4) RETURNING id',
                     [firstName, lastName, email, parseInt(response2.rows[0].id)]);
+
+                    console.log(response3.rows[0].id);
+                    //create session with participant id
+                    req.session.participantId = response3.rows[0].id;
+
                     res.status(200).json({ registrationConfirmation: 'You have successfully registered for HackHouston!' });
                 }
                 //If the participants school does not exist, insert the school first, then insert the
                 //participants information.
                 else {
                     const response3 = await pool.query('INSERT INTO school (school_name) VALUES ($1) RETURNING id', [school]);
-                    const response4 = await pool.query('INSERT INTO participant (first_name, last_name, email, school_id) VALUES ($1, $2, $3, $4)',
+                    const response4 = await pool.query('INSERT INTO participant (first_name, last_name, email, school_id) VALUES ($1, $2, $3, $4) RETURNING id',
                     [firstName, lastName, email, parseInt(response3.rows[0].id)]);
+
+                    //create session with participant id
+                    req.session.participantId = response4.rows[0].id;
+
                     res.status(200).json({ registrationConfirmation: 'You have successfully registered for HackHouston!' });
                 }
             }
