@@ -10,7 +10,7 @@ exports.validate = (method) => {
                 body('lastName', 'Last Name field cannot be empty').not().isEmpty().trim().escape(),
                 body('email', 'Must be a valid email address').not().isEmpty().isEmail().normalizeEmail(),
                 body('school', 'School field cannot be empty').not().isEmpty().trim().escape(),
-                body('password', 'Must enter a password').not().isEmpty().trim().isLength({ min: 5 })
+                body('password', 'Must enter a password').not().isEmpty().trim().isLength({ min: 5, max: 60 })
             ]
         }
     }
