@@ -30,7 +30,6 @@ const saveParticipant = async (req, res) => {
                     const response3 = await pool.query('INSERT INTO participant (first_name, last_name, email, school_id) VALUES ($1, $2, $3, $4) RETURNING id',
                     [firstName, lastName, email, parseInt(response2.rows[0].id)]);
 
-                    console.log(response3.rows[0].id);
                     //create session with participant id
                     req.session.participantId = response3.rows[0].id;
 

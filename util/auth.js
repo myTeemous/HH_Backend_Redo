@@ -15,3 +15,11 @@ exports.validate = (method) => {
         }
     }
 };
+
+exports.isLoggedIn = (req, res, next) => {
+    if(req.session.participantId) {
+        return next(new Error('You are already logged in'));
+    }
+
+    next();
+};
