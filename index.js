@@ -63,6 +63,15 @@ app.post('/test', validate('validateParticipant'), async (req, res) => {
 });
 */
 
+app.use(function (req, res, next) {
+    res.status(404).json({ message: 'Page does not exist'});
+});
+
+app.use(function (err, req, res, next) {
+    console.error(err.stack)
+    res.status(500).json({ message: 'Internal Server Error' });
+});
+
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

@@ -16,6 +16,7 @@ exports.validate = (method) => {
     }
 };
 
+//check if the request has a session variable for participantId to determine if the user is logged in
 exports.isLoggedIn = (req, res, next) => {
     if(req.session.participantId) {
         return next(new Error('You are already logged in'));
