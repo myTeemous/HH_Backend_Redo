@@ -4,6 +4,9 @@ const { hash } = require('bcryptjs');
 
 //save an individual participant to the database
 exports.saveParticipant = async (req, res) => {
+    if(req.session.isLoggedIn) {
+        res.status(200).json({ message: 'You are already logged in' });
+    }
     try {
         const errors = validationResult(req);
 
@@ -36,6 +39,7 @@ exports.saveParticipant = async (req, res) => {
 
                     //create session with participant id
                     req.session.participantId = response3.rows[0].id;
+                    req.session.isLoggedIn = true;
 
                     res.status(200).json({ message: 'You have successfully registered for HackHouston!' });
                 }
@@ -48,6 +52,7 @@ exports.saveParticipant = async (req, res) => {
 
                     //create session with participant id
                     req.session.participantId = response4.rows[0].id;
+                    req.session.isLoggedIn = true;
 
                     res.status(200).json({ message: 'You have successfully registered for HackHouston!' });
                 }

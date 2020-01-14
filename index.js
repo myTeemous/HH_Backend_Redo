@@ -35,6 +35,7 @@ app.use(session({
     cookie: {
         maxAge: sessionLifeTime,
         sameSite: true,
+        secure: false
     }
 }));
 
@@ -44,22 +45,23 @@ app.use(registerRoutes);
 app.use(loginRoutes);
 
 /*
-app.post('/test', validate('validateParticipant'), async (req, res) => {
-    try {
-        const errors = validationResult(req);
+app.get('/test', async (req, res) => {
+    console.log(req.session.isLoggedIn);
+    if(req.session.isLoggedIn) {
+        console.log('Session variable saved!');
+    }
+    else {
+        console.log('Session NOT saved');
+    }
+    res.json({ message: 'reading session' });
+});
 
-        if (!errors.isEmpty()) {
-            res.status(422).json({ errors: errors.array() });
-        }
-        else {
-            const { name, email, password } = req.body;
-            res.status(200).json({ name: name, email: email });
-        }
-    }
-    catch (err) {
-        console.log(err);
-        res.end();
-    }
+app.get('/setSession', async (req, res) => {
+    console.log(req.session);
+    req.session.isLoggedIn = true;
+    console.log(req.session);
+    //req.session.save();
+    res.json({ message: 'creating session' });
 });
 */
 

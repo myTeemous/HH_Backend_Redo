@@ -1,5 +1,4 @@
 const { body } = require('express-validator');
-const { compare } = require('bcryptjs');
 
 //Note to self: This validation is weak. Fix it later
 
@@ -23,10 +22,11 @@ exports.validate = (method) => {
     }
 };
 
-//check if the request has a session variable for participantId to determine if the user is logged in
-exports.isLoggedIn = (req, res, next) => {
-    if(req.session.participantId) {
-        return res.status(200).json({ message: 'You are already logged in' });
-    }
-    next();
+exports.createSession = (req, id) => {
+    req.session.participantId = id;
+    req.session.isLoggedIn = true;
+};
+
+exports.loggedIn = (req) => {
+    return req.session.isLoggedIn;
 };
