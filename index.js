@@ -23,6 +23,7 @@ redisClient.on('error',(err) => {
 const homeRoutes = require('./routes/home');
 const registerRoutes = require('./routes/register');
 const loginRoutes = require('./routes/login');
+const myProfileRoutes = require('./routes/myProfile');
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -43,6 +44,7 @@ app.use(session({
 app.use(homeRoutes);
 app.use(registerRoutes);
 app.use(loginRoutes);
+app.use(myProfileRoutes);
 
 /*
 app.get('/test', async (req, res) => {

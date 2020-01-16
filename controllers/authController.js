@@ -1,4 +1,5 @@
 const { body } = require('express-validator');
+const path = require('path');
 
 //Note to self: This validation is weak. Fix it later
 
@@ -27,6 +28,16 @@ exports.createSession = (req, id) => {
     req.session.isLoggedIn = true;
 };
 
-exports.loggedIn = (req) => {
-    return req.session.isLoggedIn;
+exports.checkLogin = (req, res, next) => {
+    if(req.session.isLoggedIn) {
+        return next();
+    }
+    res.redirect('/login');
+};
+
+exports.redirectToHome = (req, res, next) => {
+    if(req.session.isLoggedIn) {
+        return res.redirect('/');
+    }
+    return next();
 };

@@ -4,9 +4,6 @@ const { hash } = require('bcryptjs');
 
 //save an individual participant to the database
 exports.saveParticipant = async (req, res) => {
-    if(req.session.isLoggedIn) {
-        res.status(200).json({ message: 'You are already logged in' });
-    }
     try {
         const errors = validationResult(req);
 

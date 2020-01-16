@@ -5,11 +5,7 @@ const loginController = require('../controllers/loginController');
 
 const router = express.Router();
 
-router.get('/login', (req, res) => {
-    console.log(req.session);
-    if(req.session.isLoggedIn) {
-        return res.redirect(__dirname, '../views', 'myProfile.html');
-    }
+router.get('/login', auth.redirectToHome, (req, res) => {
     res.sendFile(path.join(__dirname, '../views', 'login.html'));
 });
 
