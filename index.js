@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
 const session = require('express-session');
 const redis = require('redis');
 const redisClient = redis.createClient();
@@ -23,6 +22,7 @@ redisClient.on('error',(err) => {
 const homeRoutes = require('./routes/home');
 const registerRoutes = require('./routes/register');
 const loginRoutes = require('./routes/login');
+const logoutRoutes = require('./routes/logout');
 const myProfileRoutes = require('./routes/myProfile');
 
 app.use(express.json());
@@ -44,6 +44,7 @@ app.use(session({
 app.use(homeRoutes);
 app.use(registerRoutes);
 app.use(loginRoutes);
+app.use(logoutRoutes);
 app.use(myProfileRoutes);
 
 /*

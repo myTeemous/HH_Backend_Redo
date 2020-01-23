@@ -41,3 +41,10 @@ exports.redirectToHome = (req, res, next) => {
     }
     return next();
 };
+
+exports.protectLogout = (req, res, next) => {
+    if(!req.session.isLoggedIn) {
+        return res.redirect('/');
+    }
+    next();
+};
